@@ -22,10 +22,11 @@ COPY . /app/
 RUN mkdir /logs
 
 # Set permissions for the logs directory
-RUN chown -R user-inside-container:user-inside-container /logs
+RUN chmod -R 777  .
 
 # Switch to non-root user
 USER user-inside-container
+RUN echo $(whoami) >> user.txt
 
 # Expose port for Flask app
 EXPOSE 5000
