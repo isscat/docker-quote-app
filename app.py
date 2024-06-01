@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 import random
 import os
 
@@ -22,14 +22,14 @@ def get_quote():
     quote = random.choice(QUOTES)
     
     # Log the request and the selected quote
-    log_quote(quote)
+    log_quote(request.remote_addr, quote)
 
     return jsonify({"quote": quote})
 
-def log_quote(quote):
+def log_quote(ip_address, quote):
     # Log the request and the selected quote to the log file
     with open(LOG_FILE, 'a') as f:
-        f.write(f"Request: {request.remote_addr}\n")
+        f.write(f"Request: {ip_address}\n")
         f.write(f"Quote: {quote}\n\n")
 
 if __name__ == '__main__':
