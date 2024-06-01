@@ -16,3 +16,5 @@ services:
       dockerfile: Dockerfile.client
     volumes:
       - ./logs:/logs
+    depends_on: flask-server
+
