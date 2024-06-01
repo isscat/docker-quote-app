@@ -1,0 +1,22 @@
+# Use an official Python image as base
+FROM python:3.10-slim
+
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+# Create and set working directory
+WORKDIR /app
+
+# Copy application files
+COPY requirements.txt /app/
+COPY client.py /app/
+
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Create logs directory
+RUN mkdir /logs
+
+# Run the Python script
+CMD ["python", "client.py"]

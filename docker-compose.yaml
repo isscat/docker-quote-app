@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  flask-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.flask
+    volumes:
+      - ./logs:/logs
+    ports:
+      - "5000:5000"
+
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfile.client
+    volumes:
+      - ./logs:/logs
