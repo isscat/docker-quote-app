@@ -21,12 +21,8 @@ COPY . /app/
 # Create logs directory
 RUN mkdir /logs
 
-# Set permissions for the logs directory
-RUN chmod -R 777  .
-
 # Switch to non-root user
 USER user-inside-container
-RUN echo $(whoami) >> user.txt
 
 # Expose port for Flask app
 EXPOSE 5000
