@@ -17,12 +17,10 @@ COPY . /app/
 
 # Create logs directory
 RUN mkdir /logs
-
-# Set permissions for the logs directory
-RUN chown -R user-inside-container:user-inside-container /logs
-
 # Switch to non-root user
 USER user-inside-container
+# Set permissions for the logs directory
+RUN chown -R user-inside-container:user-inside-container /logs
 
 # Expose port for Flask app
 EXPOSE 5000
