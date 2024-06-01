@@ -18,5 +18,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Create logs directory
 RUN mkdir /logs
 
+# Set permissions for the logs directory
+RUN chown -R user:user /logs
+
+# Switch to non-root user
+USER user
+
 # Run the Python script
 CMD ["python", "client.py"]

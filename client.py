@@ -1,23 +1,25 @@
-import requests
+from flask import Flask, request
+import os
 
-# URL of the Flask server
-FLASK_URL = "http://flask-server:5000/quote"
+app = Flask(__name__)
 
 # File path for the log file
 LOG_FILE = '/logs/client_logs.txt'
 
-def main():
-    # Send a request to the Flask server to get a quote
-    response = requests.get(FLASK_URL)
-    quote = response.json().get("quote", "")
-    
-    # Log the received quote
-    log_quote(quote)
+@app.route('/log', methods=['POST'])
+def log_ip_address():
+    # Get the IP address from the request
+    ip_address = request.json.get('ip_address')
 
-def log_quote(quote):
-    # Log the received quote to the log file
+    # Log the IP address
+    log_to_file(ip_address)
+
+    return "OK"
+
+def log_to_file(ip_address):
+    # Log the IP address to the log file
     with open(LOG_FILE, 'a') as f:
-        f.write(f"Quote: {quote}\n")
+        f.write(f"Client IP: {ip_address}\n")
 
-if __name__ == "__main__":
-    main()
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5001)

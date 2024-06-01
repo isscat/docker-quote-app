@@ -9,6 +9,8 @@ services:
       - ./logs:/logs
     ports:
       - "5000:5000"
+    depends_on:
+      - client
 
   client:
     build:
@@ -16,6 +18,5 @@ services:
       dockerfile: Dockerfile.client
     volumes:
       - ./logs:/logs
-    depends_on: 
-      - flask-server
-
+    ports:
+      - "5001:5001"

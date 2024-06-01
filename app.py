@@ -1,4 +1,5 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
+import requests
 import random
 
 app = Flask(__name__)
@@ -12,23 +13,29 @@ QUOTES = [
     "Great things never come from comfort zones."
 ]
 
-# File path for the log file
-LOG_FILE = '/logs/quote_logs.txt'
+# URL of the client server
+CLIENT_URL = "http://client:5001/log"
 
 @app.route('/quote')
 def get_quote():
-    # Select a random quote
+    # Get the client IP address from the request
+    client_ip = request.remote_addr
+    
+    # Log the IP address to the client server
+    log_client_ip(client_ip)
+
+    # Select a random quote from the list
     quote = random.choice(QUOTES)
     
-    # Log the selected quote
-    log_quote(quote)
-
     return jsonify({"quote": quote})
 
-def log_quote(quote):
-    # Log the selected quote to the log file
-    with open(LOG_FILE, 'a') as f:
-        f.write(f"Quote: {quote}\n")
+def log_client_ip(client_ip):
+    # Send the client IP address to the client server for logging
+    try:
+        response = requests.post(CLIENT_URL, json={"ip_address": client_ip})
+        response.raise_for_status()
+    except requests.RequestException as e:
+        print(f"Error sending IP address to client server: {e}")
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
