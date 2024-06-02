@@ -1,0 +1,165 @@
+Sun June-2
+============
+add docker to rhel9 slave
+sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+
+sudo yum install -y docker-ce docker-ce-cli containerd.io
+
+sudo systemctl start docker
+sudo systemctl enable docker
+
+sudo usermod -aG docker ec2-user
+
+Running Jupyter with adhoc docker commands:
+=============
+docker pull jupyter/scipy-notebook
+docker run -p 8888:8888 -e JUPYTER_ENABLE_LAB=yes jupyter/scipy-notebook
+
+docker auth:
+=============
+export password=$(cat .password.txt)
+docker login -u indhu.sony777@gmail.com -p $password
+
+Dockerfile:
+=============
+
+
+
+
+
+docker build:
+========
+docker build -t hello-image .
+docker tag hello-image isscat/devops-docker-repo:latest
+docker push isscat/devops-docker-repo:latest
+====example===
+https://github.com/isscat/docker-quote-app.git
+docker build -t quote-logs-image .--no-cache
+docker tag quote-image isscat/devops-docker-repo:latest
+docker push isscat/devops-docker-repo:latest
+docker run -p 5000:5000 quote-image --> using ports
+docker run -v ./logs:/logs -p 5000:5000 quote-logs-image
+
+
+
+
+
+
+
+
+delete all local images:
+===============
+remove containers
+docker rm -f $(docker ps -aq)
+docker rmi -f $(docker images -q)
+docker run isscat/devops-docker-repo:latest
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+0) GitHub webhook - on [Push, Pull Request]
+1) GitHub Payload Schema, Extracting Variable and using in Jenkins pipeline
+2) Jenkins ENV variables
+3) cleanWs
+4) Getting output from shell block to Groovy variable
+
+
+BUILD_URL
+BUILD_NUMBER
+USER_NAME
+JOB_NAME
+JOB_BASE_NAME
+WORKDIR --> pwd 
+
+cleanWs --> hint: workspace cleanup plugin in Jenkins
+
+rm -rf 
+
+
+
+
+
+
+
+
+
+
+webhook url: http://ec2-18-60-60-52.ap-south-2.compute.amazonaws.com:8080/generic-webhook-trigger/invoke?token=match-token
+
+
+
+Github --> repository --> confiure webhook --> event --> develop, val, prod --> developer will create feature branches 
+
+jenkins pipeline --> Generic Webhook Trigger --> 
+on push
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Maven
+Sonarqube analysis of a maven project
+
+Tomcat application Deployment - will do it manually
+End to End we will do it through Jenkins pipeline
+
+tree -L 3
+
+sudo yum install tree -y
+
+mvn clean verify sonar:sonar \
+-Dsonar.projectKey=devops \
+-Dsonar.host.url=http://ec2-18-61-36-81.ap-south-2.compute.amazonaws.com:9000 \
+-Dsonar.login=c1a92696957d7ffbcd7bfbd75f979cc710f56d21
+
+tomcat Installation
+====================
+Url: https://dlcdn.apache.org/tomcat/tomcat-8/v8.5.100/bin/apache-tomcat-8.5.100.tar.gz
+wget --> curl --> POST
+
+/home/ec2-user/tomcat-app/target/my-tomcat-app-1.0-SNAPSHOT.war
+
+
+tomcat deployment is done
